@@ -1,6 +1,18 @@
 # Copyright (c) 2021 Brad Thorne
 ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
-ASDF_COMPLETIONS="$ASDF_DIR/completions"
+# ASDF_COMPLETIONS="$ASDF_DIR/completions"
+
+0=${${ZERO:-${0:#$ZSH_ARGZERO}}:-${(%):-%N}}
+0=${${(M)0:#/*}:-$PWD/$0}
+
+# Then ${0:h} to get plugin's directory
+
+if [[ ${zsh_loaded_plugins[-1]} != */zsh-asdf-direnv && -z ${fpath[(r)${0:h}]} ]] {
+    fpath+=( "${0:h}" )
+}
+
+typeset -gA Plugins
+Plugins[ZSH_ASDF_DIRENV_DIR]="${0:h}"
 
 # Load command
 [ -f "$ASDF_DIR/asdf.sh" ] && {
@@ -9,9 +21,6 @@ ASDF_COMPLETIONS="$ASDF_DIR/completions"
 }
 
 [[ -n ${commands[direnv]} ]] || return
-
-typeset -gA Plugins
-Plugins[ZSH_ASDF_DIRENV_DIR]="${0:h}"
 
 _direnv_hook() {
   trap -- '' SIGINT;
