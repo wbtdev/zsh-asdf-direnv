@@ -1,4 +1,13 @@
 # Copyright (c) 2021 Brad Thorne
+ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
+ASDF_COMPLETIONS="$ASDF_DIR/completions"
+
+# Load command
+[ -f "$ASDF_DIR/asdf.sh" ] && {
+  . "$ASDF_DIR/asdf.sh";
+  [ -d "$ASDF_COMPLETIONS" ] && fpath+=("$ASDF_COMPLETIONS")
+}
+
 [[ -n ${commands[direnv]} ]] || return
 
 typeset -gA Plugins
