@@ -1,6 +1,6 @@
 # Copyright (c) 2021 Brad Thorne
 ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
-# ASDF_COMPLETIONS="$ASDF_DIR/completions"
+source "$ASDF_DIR/asdf.sh" || return
 
 0=${${ZERO:-${0:#$ZSH_ARGZERO}}:-${(%):-%N}}
 0=${${(M)0:#/*}:-$PWD/$0}
@@ -13,7 +13,7 @@ if [[ ${zsh_loaded_plugins[-1]} != */zsh-asdf-direnv && -z ${fpath[(r)${0:h}]} ]
 typeset -gA Plugins
 Plugins[ZSH_ASDF_DIRENV_DIR]="${0:h}"
 
-source "$ASDF_DIR/asdf.sh" || return
+autoload -Uz direnv
 
 [[ -n ${commands[direnv]} ]] || return
 
